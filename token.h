@@ -17,14 +17,6 @@ typedef enum
 
 typedef enum
 {
-  mathematical_LP,
-  mathematical_RP,
-  function_LP,
-  function_RP,
-} brackets_identifier;
-
-typedef enum
-{
   var_kw,
   if_kw,
   elif_kw,
