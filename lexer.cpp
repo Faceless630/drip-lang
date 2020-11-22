@@ -1,75 +1,43 @@
-#include "token.h"
-#include <ctype.h>
+#include "token.hpp"
 #include <string>
+#include <map>
 
-std::string identifier_decision, currentchar;
+static std::string operator_decision = "";
 
-inline void reset() { identifier_decision = ""; }
+const static std::map<std::string, basic_tokens> singlechar_token{
+    {"+", ADD},
+    {"-", SUB},
+    {"*", MUL},
+    {"/", DIV},
+    {"(", LP},
+    {")", RP},
+    {"{", LC},
+    {"}", RC},
+    {"\n", NL},
+};
 
-int search_token(Identifiers &identifier)
+static std::map<std::string, reserved_keywords> complex_token{
+    {"var", var_operator},
+    {"if", if_operator},
+    {"elif", elif_operator},
+    {"else", else_operator},
+    {"for", for_operator},
+    {"while", while_operator},
+    {"func", func_operator},
+};
+
+int return_token(std::string &currentchar)
 {
-
-  if (currentchar == "+")
-    return ADD_OPERATOR;
-  else if (currentchar == "-")
-    return SUB_OPERATOR;
-  else if (currentchar == "*")
-    return SUB_OPERATOR;
-  else if (currentchar == "/")
-    return DIV_OPERATOR;
-  else if (currentchar == "%")
-    return PERCENT_OPERATOR;
-  else if (currentchar == "\n")
-    return NEWLINE_OPERATOR;
-  else if (currentchar == "(")
-    return LP;
-  else if (currentchar == ")")
-    return RP;
-  else if (currentchar == "{")
-    return LC;
-  else if (currentchar == "}")
-    return RC;
-
-  identifier_decision += currentchar;
-  if (identifier_decision == "var")
+  if (singlechar_token.count(currentchar))
   {
-    reset();
-    return var_kw;
+    return singlechar_token.at(currentchar);
   }
-
-  else if (identifier_decision == "if")
+  else
   {
-    reset();
-    return if_kw;
-  }
-
-  else if (identifier_decision == "elif")
-  {
-    reset();
-    return elif_kw;
-  }
-
-  else if (identifier_decision == "else")
-  {
-    reset();
-    return else_kw;
-  }
-
-  else if (identifier_decision == "for")
-  {
-    reset();
-    return for_kw;
-  }
-
-  else if (identifier_decision == "while")
-  {
-    reset();
-    return while_kw;
-  }
-
-  else if (identifier_decision == "func")
-  {
-    reset();
-    return func_kw;
+    operator_decision += currentchar;
+    if (complex_token.count(operator_decision))
+    {
+      return complex_token[operator_decision];
+    }
   }
 }
