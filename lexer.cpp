@@ -37,7 +37,9 @@ int return_token(std::string &currentchar)
     operator_decision += currentchar;
     if (complex_token.count(operator_decision))
     {
-      return complex_token[operator_decision];
+      int save_current = complex_token[operator_decision];
+      operator_decision = "";
+      return save_current;
     }
   }
 }
