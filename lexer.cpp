@@ -1,10 +1,8 @@
-#include "token.hpp"
-#include <string>
-#include <map>
+#include "lexer.hpp"
 
 static std::string operator_decision = "";
 
-const static std::map<std::string, basic_tokens> singlechar_token{
+const extern std::map<std::string, basic_tokens> singlechar_token{
     {"+", ADD},
     {"-", SUB},
     {"*", MUL},
@@ -16,7 +14,7 @@ const static std::map<std::string, basic_tokens> singlechar_token{
     {"\n", NL},
 };
 
-static std::map<std::string, reserved_keywords> complex_token{
+extern std::map<std::string, reserved_keywords> complex_token{
     {"var", var_operator},
     {"if", if_operator},
     {"elif", elif_operator},
